@@ -1,26 +1,55 @@
-Código del archivo .env
+==================================================
+PROYECTO: Tech Solutions - Gestión de Proyectos (Unidad 3)
+==================================================
 
-APP_NAME=TechSolutions
-APP_ENV=local
-APP_KEY=
-APP_DEBUG=true
-APP_URL=http://localhost
+REQUISITOS PREVIOS:
+- PHP (Versión 8.1 o superior recomendada)
+- Composer
+- Node.js y NPM
 
-DB_CONNECTION=sqlite
-# DB_DATABASE=database/database.sqlite
-JWT_SECRET=una_clave_secreta_larga_y_dificil_de_adivinar123
-JWT_EXPIRE_SECONDS=3600
+--------------------------------------------------
+1. INSTRUCCIONES DE INSTALACIÓN Y EJECUCIÓN
+--------------------------------------------------
 
-Comandos de ejecución del proyecto en la terminal
+1. Descomprimir o clonar el proyecto en tu entorno local.
 
-Instalar dependencias Backend: composer install
-Generar clave de aplicación: php artisan key:generate
-(Esto llenará automáticamente la variable APP_KEY en el archivo .env)
-Limpiar caché de configuración: php artisan config:clear
-Ejecutar migraciones (Crear BD): php artisan migrate
-(Confirmar con 'yes' si pregunta por la creación del archivo SQLite)
-Iniciar el servidor local: php artisan serve
+2. Abrir una terminal en la raíz del proyecto e instalar las dependencias de PHP:
+   composer install
 
-Falta de archivos npm y tailwind.
+3. Instalar las dependencias de Node.js:
+   npm install
 
-La falta de npm y tailwind presente en el proyecto tiene su explicación en las tecnologías utilizadas para su desarrollo. La ausencia de archivos como package.jason, package-lock.json o tailwind.config.js puede llamar la atención ya que era la manera en la que veníamos trabajando las últimas evaluaciones, sin embargo en esta oportunidad optamos por usar CSS puro, gracias a esto, no precisamos de instalar las dependencias en la terminal con el comando npm install, o los archivos mencionados, ya que todo el apartado Frontend se interpreta a través del motor del navegador, en vez de ser compilado.
+4. Configurar las variables de entorno:
+   - Copiar el archivo .env.example y renombrarlo como .env
+   - Configurar los parámetros de conexión a la base de datos en el archivo .env.
+   - Generar la key de la aplicación ejecutando:
+     php artisan key:generate
+
+5. Ejecutar las migraciones para crear las tablas en la base de datos:
+   php artisan migrate
+
+6. Iniciar la compilación de estilos (Tailwind CSS) con Laravel Mix:
+   npm run watch
+   *(Nota: Dejar esta terminal abierta mientras se trabaja localmente).*
+
+7. En otra pestaña o ventana de la terminal, levantar el servidor backend de Laravel:
+   php artisan serve
+   
+El sistema web quedará accesible por defecto en: http://localhost:8000
+
+
+--------------------------------------------------
+2. INSTRUCCIONES PARA REVISAR LA DOCUMENTACIÓN SWAGGER
+--------------------------------------------------
+
+El archivo de especificación técnica de la API se encuentra incluido en la raíz del proyecto bajo el nombre:
+-> swagger.yaml
+
+Para realizar la revisión y pruebas de los endpoints de manera interactiva:
+1. Abrir el navegador web e ingresar a la herramienta oficial: https://editor.swagger.io/
+2. Copiar todo el contenido del archivo `swagger.yaml` provisto en el repositorio/entrega.
+3. Pagar el contenido en el panel izquierdo del editor.
+4. El panel derecho mostrará de inmediato la interfaz interactiva de Swagger UI, 
+   permitiendo verificar los métodos HTTP (Autenticación JWT y el CRUD completo de Proyectos), 
+   así como los códigos de respuesta esperados (200, 201, 204, 404).
+==================================================
