@@ -30,6 +30,7 @@
     26 => 'App\\Providers\\AuthServiceProvider',
     27 => 'App\\Providers\\EventServiceProvider',
     28 => 'App\\Providers\\RouteServiceProvider',
+    29 => 'L5Swagger\\L5SwaggerServiceProvider',
   ),
   'eager' => 
   array (
@@ -50,6 +51,7 @@
     14 => 'App\\Providers\\AuthServiceProvider',
     15 => 'App\\Providers\\EventServiceProvider',
     16 => 'App\\Providers\\RouteServiceProvider',
+    17 => 'L5Swagger\\L5SwaggerServiceProvider',
   ),
   'deferred' => 
   array (
