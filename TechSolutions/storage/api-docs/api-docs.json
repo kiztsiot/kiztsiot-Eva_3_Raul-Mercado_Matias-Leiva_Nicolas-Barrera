@@ -1,0 +1,175 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Gestión de Proyectos - Tech Solutions",
+        "description": "Documentación de endpoints de la Evaluación 3",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Servidor Local"
+        }
+    ],
+    "paths": {
+        "/api/proyectos": {
+            "get": {
+                "tags": [
+                    "Proyectos"
+                ],
+                "summary": "Obtener todos los proyectos",
+                "operationId": "a8f8c9e87936065357c969f20279f817",
+                "responses": {
+                    "200": {
+                        "description": "Lista de proyectos o arreglo vacío"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Proyectos"
+                ],
+                "summary": "Crear proyecto",
+                "operationId": "6c016ca2a02e415dec7e6bf341dd004c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Proyecto Ejemplo"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Descripción del proyecto"
+                                    },
+                                    "fecha_inicio": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-09-01"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2026-12-31"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Proyecto creado"
+                    }
+                }
+            }
+        },
+        "/api/proyectos/{id}": {
+            "get": {
+                "tags": [
+                    "Proyectos"
+                ],
+                "summary": "Obtener proyecto por ID",
+                "operationId": "f0995c4d577e1e2443371244c24dba50",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Proyecto encontrado"
+                    },
+                    "404": {
+                        "description": "No encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Proyectos"
+                ],
+                "summary": "Actualizar proyecto por ID",
+                "operationId": "6f9c39ece5f8b030364337570da65b35",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Proyecto Modificado"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Nueva descripción"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Proyecto actualizado"
+                    },
+                    "404": {
+                        "description": "No encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Proyectos"
+                ],
+                "summary": "Eliminar proyecto por ID",
+                "operationId": "afef6047385a819ac3bcc50c9de7df49",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Respuesta vacía"
+                    },
+                    "404": {
+                        "description": "No encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Proyectos",
+            "description": "Proyectos"
+        }
+    ]
+}
