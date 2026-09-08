@@ -1,0 +1,281 @@
+openapi: 3.0.0
+info:
+  title: API Tech Solutions - Gestión de Proyectos
+  description: API REST para la gestión de proyectos con autenticación JWT desarrollada para la Unidad 3.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api
+    description: Servidor Local
+
+# Configuración de Seguridad (JWT)
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Proyecto:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Actualización de Servidores"
+        fecha_inicio:
+          type: string
+          format: date
+          example: "2026-10-15"
+        estado:
+          type: string
+          example: "En progreso"
+        responsable:
+          type: string
+          example: "Juan Pérez"
+        monto:
+          type: number
+          format: float
+          minimum: 0
+          example: 1500000
+        created_by:
+          type: integer
+          example: 3
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+paths:
+  /register:
+    post:
+      summary: Registrar un nuevo usuario
+      tags:
+        - Autenticación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                correo:
+                  type: string
+                clave:
+                  type: string
+      responses:
+        '201':
+          description: Usuario registrado exitosamente
+
+  /login:
+    post:
+      summary: Iniciar sesión y obtener token JWT
+      tags:
+        - Autenticación
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                correo:
+                  type: string
+                clave:
+                  type: string
+      responses:
+        '200':
+          description: Inicio de sesión exitoso. Retorna el token JWT.
+
+  /proyectos:
+    get:
+      summary: Listar todos los proyectos
+      description: Retorna un arreglo con todos los proyectos registrados. Si no hay, retorna un arreglo vacío.
+      security:
+        - bearerAuth: []
+      tags:
+        - Proyectos
+      responses:
+        '200':
+          description: Lista de proyectos recuperada exitosamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Proyecto'
+
+    post:
+      summary: Crear un nuevo proyecto
+      description: Agrega un proyecto a la base de datos asociado al usuario autenticado.
+      security:
+        - bearerAuth: []
+      tags:
+        - Proyectos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nombre
+                - fecha_inicio
+                - estado
+                - responsable
+                - monto
+              properties:
+                nombre:
+                  type: string
+                fecha_inicio:
+                  type: string
+                  format: date
+                estado:
+                  type: string
+                responsable:
+                  type: string
+                monto:
+                  type: number
+                  minimum: 0
+      responses:
+        '201':
+          description: Proyecto creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+        '422':
+          description: Error de validación (ej. monto negativo o campos vacíos)
+
+  /proyectos/{id}:
+    get:
+      summary: Buscar un proyecto por ID
+      description: Retorna los detalles de un proyecto específico.
+      security:
+        - bearerAuth: []
+      tags:
+        - Proyectos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del proyecto a buscar
+      responses:
+        '200':
+          description: Proyecto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+        '404':
+          description: Proyecto no encontrado
+
+    put:
+      summary: Actualizar un proyecto (Reemplazo total)
+      description: Actualiza los datos de un proyecto existente usando su ID.
+      security:
+        - bearerAuth: []
+      tags:
+        - Proyectos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                fecha_inicio:
+                  type: string
+                  format: date
+                estado:
+                  type: string
+                responsable:
+                  type: string
+                monto:
+                  type: number
+                  minimum: 0
+      responses:
+        '200':
+          description: Proyecto actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Proyecto'
+        '404':
+          description: Proyecto no encontrado
+        '422':
+          description: Error de validación (ej. monto negativo)
+
+    patch:
+      summary: Actualizar un proyecto (Reemplazo parcial)
+      description: Actualiza campos específicos de un proyecto existente.
+      security:
+        - bearerAuth: []
+      tags:
+        - Proyectos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                fecha_inicio:
+                  type: string
+                  format: date
+                estado:
+                  type: string
+                responsable:
+                  type: string
+                monto:
+                  type: number
+                  minimum: 0
+      responses:
+        '200':
+          description: Proyecto actualizado exitosamente
+        '404':
+          description: Proyecto no encontrado
+        '422':
+          description: Error de validación
+
+    delete:
+      summary: Eliminar un proyecto
+      description: Elimina un proyecto de manera permanente devolviendo una respuesta vacía.
+      security:
+        - bearerAuth: []
+      tags:
+        - Proyectos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Proyecto eliminado exitosamente (Respuesta vacía)
+        '404':
+          description: Proyecto no encontrado
