@@ -1,5 +1,5 @@
-<div class="min-h-screen bg-gray-50 py-8 px-6 lg:px-10">
-    <div class="max-w-full mx-auto space-y-6">
+<div class="min-h-screen bg-gray-50 py-8 px-4 w-full">
+    <div class="w-full space-y-6">
         
         <!-- Cabecera -->
         <div class="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
