@@ -20,5 +20,6 @@ Route::middleware('jwt.auth')->group(function () {
     Route::post('/proyectos', [ProyectoController::class, 'store']);
     Route::get('/proyectos/{id}', [ProyectoController::class, 'show']);
     Route::put('/proyectos/{id}', [ProyectoController::class, 'update']);
+    Route::patch('/proyectos/{id}', [ProyectoController::class, 'update']);
     Route::delete('/proyectos/{id}', [ProyectoController::class, 'destroy']);
 });
