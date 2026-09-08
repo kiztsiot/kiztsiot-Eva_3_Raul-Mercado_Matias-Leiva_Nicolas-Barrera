@@ -11,7 +11,7 @@ class ProyectoController extends Controller
     // Lista todos los proyectos
     public function index(Request $request)
     {
-        return response()->json(Proyecto::with('usuario')->get());
+        return response()->json(Proyecto::with('usuario')->get(), 200);
     }
 
     // Crea un nuevo proyecto asociado al usuario autenticado (created_by)
@@ -22,7 +22,7 @@ class ProyectoController extends Controller
             'fecha_inicio' => 'required|date',
             'estado' => 'required|string',
             'responsable' => 'required|string',
-            'monto' => 'required|numeric',
+            'monto' => 'required|numeric|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -45,23 +45,46 @@ class ProyectoController extends Controller
 
     public function show($id)
     {
-        $proyecto = Proyecto::with('usuario')->findOrFail($id);
-        return response()->json($proyecto);
+        $proyecto = Proyecto::with('usuario')->find($id);
+        if(!$proyecto) {
+            return response()->json(['success' => false, 'message' => 'Proyecto no encontrado'], 404);
+        }
+        return response()->json(['success' => true, 'proyecto' => $proyecto], 200);
     }
 
     public function update(Request $request, $id)
     {
-        $proyecto = Proyecto::findOrFail($id);
+        $proyecto = Proyecto::find($id);
+        if(!$proyecto) {
+            return response()->json(['success' => false, 'message' => 'Proyecto no encontrado'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'string|max:255',
+            'fecha_inicio' => 'date',
+            'estado' => 'string',
+            'responsable' => 'string',
+            'monto' => 'numeric|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+
         $proyecto->update($request->only([
             'nombre', 'fecha_inicio', 'estado', 'responsable', 'monto'
         ]));
 
-        return response()->json(['success' => true, 'proyecto' => $proyecto]);
+        return response()->json(['success' => true, 'proyecto' => $proyecto], 200);
     }
 
     public function destroy($id)
     {
-        Proyecto::findOrFail($id)->delete();
-        return response()->json(['success' => true, 'message' => 'Proyecto eliminado']);
+        $proyecto = Proyecto::find($id);
+        if(!$proyecto) {
+            return response()->json(['success' => false, 'message' => 'Proyecto no encontrado'], 404);
+        }
+        $proyecto->delete();
+        return response()->json(['success' => true, 'message' => 'Proyecto eliminado'], 204);
     }
 }
