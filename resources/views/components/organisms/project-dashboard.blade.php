@@ -111,7 +111,6 @@
                 headers: apiHeaders
             });
 
-            // Código 204 indica éxito estricto sin contenido según la pauta
             if (res.status === 204) {
                 fetchProyectos();
                 showAlert('Proyecto eliminado correctamente (Código 204).', 'success');
