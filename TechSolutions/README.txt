@@ -41,6 +41,8 @@ El sistema web quedará accesible por defecto en: http://localhost:8000
 --------------------------------------------------
 2. INSTRUCCIONES PARA REVISAR LA DOCUMENTACIÓN SWAGGER
 --------------------------------------------------
+link para ver el swagger:
+http://127.0.0.1:8000/api/documentation#/Proyectos
 
 El archivo de especificación técnica de la API se encuentra incluido en la raíz del proyecto bajo el nombre:
 -> swagger.yaml
